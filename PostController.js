@@ -14,6 +14,64 @@ class PostController {
       res.status(500).json(err);
     }
   }
+
+  async getAll(req, res) {
+    try {
+      const posts = await Post.find();
+
+      res.json(posts);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  async getOne(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        res.status(400).json({ message: "id is undefined" });
+      }
+
+      const post = await Post.findById(id);
+
+      res.json(post);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  async update(req, res) {
+    try {
+      const post = req.body;
+
+      if (!post._id) {
+        res.status(400).json({ message: "id is undefined" });
+      }
+
+      const updatedPost = await Post.findByIdAndUpdate(post._id, post);
+
+      res.json(post);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        res.status(400).json({ message: "id is undefined" });
+      }
+
+      const post = await Post.findByIdAndDelete(id);
+
+      res.json(post);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 }
 
 export default new PostController();
