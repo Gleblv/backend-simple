@@ -1,9 +1,11 @@
 import Post from "./Post.js";
 import PostController from "./PostController.js";
+import FileServise from "./FileServise.js";
 
 class PostServise {
-  async create(post) {
-    const createdPost = await Post.create(post);
+  async create(post, file) {
+    const fileName = await FileServise.write(file);
+    const createdPost = await Post.create({ ...post, picture: fileName });
 
     return createdPost;
   }
